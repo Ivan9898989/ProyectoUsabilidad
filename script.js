@@ -84,18 +84,26 @@ function loadQuestion() {
 
 // Función para comprobar la respuesta
 function checkAnswer(index) {
-  const feedback = document.getElementById("feedback");
   const gameContainer = document.getElementById("fondodelJuego");
 
   if (index === questions[currentQuestionIndex].correct) {
+    // Respuesta correcta
     gameContainer.innerHTML = `
       <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: 100%; height: auto; margin-top: 20px;">
       <button onclick="nextQuestion()" style="margin-top: 20px;">Siguiente</button>
     `;
   } else {
-    feedback.textContent = "Incorrecto. Intenta de nuevo.";
-    feedback.style.color = "red";
+    // Respuesta incorrecta
+    gameContainer.innerHTML = `
+      <img src="imagenes/error.png" alt="Respuesta incorrecta" style="max-width: 400px; height: 400px; margin-top: 20px;">
+      <button onclick="retryQuestion()" style="margin-top: 20px;">Intentar de nuevo</button>
+    `;
   }
+}
+
+// Función para cargar la misma pregunta nuevamente al fallar
+function retryQuestion() {
+  loadQuestion();
 }
 
 // Función para cargar la siguiente pregunta
