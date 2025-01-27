@@ -44,8 +44,8 @@ function startTimer() {
 function endGame() {
   const gameContainer = document.getElementById("fondodelJuego");
   gameContainer.innerHTML = `
-    <h1>Se agotó el tiempo. Intenta nuevamente.</h1>
-    <button onclick="restartGame()">Reiniciar</button>
+    <h1 tabindex="7">Se agotó el tiempo. Intenta nuevamente.</h1>
+    <button onclick="restartGame()" tabindex="8">Reiniciar</button>
   `;
 }
 
@@ -69,17 +69,26 @@ function loadQuestion() {
   const questionData = questions[currentQuestionIndex];
 
   gameContainer.innerHTML = `
-    <h1 id="question">${questionData.question}</h1>
+    <h1 id="question" tabindex="7">${questionData.question}</h1>
     <div id="answers" class="opcionesRespuesta">
       ${questionData.options
         .map(
           (option, index) =>
-            `<button onclick="checkAnswer(${index})">${option}</button>`
+            `<button onclick="checkAnswer(${index})" onkeypress="handleKeyPress(event, ${index})" tabindex="${8 + index}">${option}</button>`
         )
         .join("")}
     </div>
-    <p id="feedback"></p>
+    <p id="feedback" tabindex="${8 + questions[currentQuestionIndex].options.length}"></p>
   `;
+
+  document.querySelectorAll("#answers button").forEach(button => {
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        button.click();
+      }
+    });
+  });
 }
 
 // Función para comprobar la respuesta
@@ -89,14 +98,14 @@ function checkAnswer(index) {
   if (index === questions[currentQuestionIndex].correct) {
     // Respuesta correcta
     gameContainer.innerHTML = `
-      <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: 100%; height: auto; margin-top: 20px;">
-      <button onclick="nextQuestion()" style="margin-top: 20px;">Siguiente</button>
+      <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="8">
+      <button onclick="nextQuestion()" style="margin-top: 20px;" tabindex="9">Siguiente</button>
     `;
   } else {
     // Respuesta incorrecta
     gameContainer.innerHTML = `
-      <img src="imagenes/error.png" alt="Respuesta incorrecta" style="max-width: 400px; height: 400px; margin-top: 20px;">
-      <button onclick="retryQuestion()" style="margin-top: 20px;">Intentar de nuevo</button>
+      <img src="imagenes/error.png" alt="Respuesta incorrecta" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="8">
+      <button onclick="retryQuestion()" style="margin-top: 20px;" tabindex="9">Intentar de nuevo</button>
     `;
   }
 }
@@ -114,9 +123,44 @@ function nextQuestion() {
     loadQuestion();
   } else {
     document.getElementById("fondodelJuego").innerHTML = `
-      <h1>¡Juego completado!</h1>
-      <img src="imagenes/finalizado.png" alt="Juego completado" style="max-width: 100%; height: auto; margin-top: 20px;">
-      <button onclick="restartGame()">Reiniciar</button>
+      <h1 tabindex="7">¡Juego completado!</h1>
+      <img src="imagenes/finalizado.png" alt="Juego completado" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="8">
+      <button onclick="restartGame()" tabindex="9">Reiniciar</button>
     `;
   }
 }
+
+function checkAnswer(index) {
+  const gameContainer = document.getElementById("fondodelJuego");
+
+  if (index === questions[currentQuestionIndex].correct) {
+    // Respuesta correcta
+    gameContainer.innerHTML = `
+      <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="7">
+      <button onclick="nextQuestion()" style="margin-top: 20px;" tabindex="8">Siguiente</button>
+    `;
+    
+    // Focalizar automáticamente el botón "Siguiente"
+    setTimeout(() => {
+      const nextButton = document.querySelector('button[onclick="nextQuestion()"]');
+      if (nextButton) {
+        nextButton.focus();
+      }
+    }, 100);
+  } else {
+    // Respuesta incorrecta
+    gameContainer.innerHTML = `
+      <img src="imagenes/incorrecto.png" alt="Respuesta incorrecta" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="7">
+      <button onclick="retryQuestion()" style="margin-top: 20px;" tabindex="8">Intentar de nuevo</button>
+    `;
+
+    // Focalizar automáticamente el botón "Intentar de nuevo"
+    setTimeout(() => {
+      const retryButton = document.querySelector('button[onclick="retryQuestion()"]');
+      if (retryButton) {
+        retryButton.focus();
+      }
+    }, 100);
+  }
+}
+
