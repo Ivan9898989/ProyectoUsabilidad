@@ -12,20 +12,11 @@
     <h1 id="nombreEquipo">Gamestron</h1>
     <h1 id="indicacion">Haz click sobre la respuesta correcta</h1>
     <div id="timer">45s</div>
-    <img src="imagenes/tiempo.jpg" alt="Logo Escuela Politécnica Nacional" id="logoEPN">
-
+    <img src="imagenes/tiempo.jpg" alt="Tiempo" id="logoEPN">
   </header>
   <main>
-    <div id="fondodelJuego" class="contenedordelJuego">
-      <h1 id="question" aria-live="polite">¿Cuál es la capital de Ecuador?</h1>
-      <div id="answers" class="opcionesRespuesta">
-        <button class="opcion1" aria-label="Opción 1: Quito" onclick="checkAnswer('correct')">Quito</button>
-        <button class="opcion2" aria-label="Opción 2: Guayaquil" onclick="checkAnswer('incorrect')">Guayaquil</button>
-        <button class="opcion3" aria-label="Opción 3: Cuenca" onclick="checkAnswer('incorrect')">Cuenca</button>
-        <button class="opcion4" aria-label="Opción 4: Loja" onclick="checkAnswer('incorrect')">Loja</button>
-      </div>
-      <p id="feedback" aria-live="assertive"></p>
-    </div>
+    <!-- Contenedor que será modificado dinámicamente -->
+    <div id="fondodelJuego" class="contenedordelJuego"></div>
   </main>
   <script src="script.js"></script>
 </body>
