@@ -136,31 +136,27 @@ function checkAnswer(index) {
   if (index === questions[currentQuestionIndex].correct) {
     // Respuesta correcta
     gameContainer.innerHTML = `
-      <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="7">
-      <button onclick="nextQuestion()" style="margin-top: 20px;" tabindex="8">Siguiente</button>
+      <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: 100%; height: auto; margin-top: 20px;" id="successImage" tabindex="7">
+      <button onclick="nextQuestion()" style="margin-top: 20px;" id="nextButton" tabindex="8">Siguiente</button>
     `;
-    
-    // Focalizar automáticamente el botón "Siguiente"
+
+    // Focalizar primero la imagen y después el botón
     setTimeout(() => {
-      const nextButton = document.querySelector('button[onclick="nextQuestion()"]');
-      if (nextButton) {
-        nextButton.focus();
-      }
+      document.getElementById("successImage").focus();
     }, 100);
+
   } else {
     // Respuesta incorrecta
     gameContainer.innerHTML = `
-      <img src="imagenes/incorrecto.png" alt="Respuesta incorrecta" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="7">
-      <button onclick="retryQuestion()" style="margin-top: 20px;" tabindex="8">Intentar de nuevo</button>
+      <img src="imagenes/error.png" alt="Respuesta incorrecta" style="max-width: 400px; height: 400px; margin-top: 20px;" id="errorImage" tabindex="7">
+      <button onclick="retryQuestion()" style="margin-top: 20px;" id="retryButton" tabindex="8">Intentar de nuevo</button>
     `;
 
-    // Focalizar automáticamente el botón "Intentar de nuevo"
+    // Focalizar primero la imagen y después el botón
     setTimeout(() => {
-      const retryButton = document.querySelector('button[onclick="retryQuestion()"]');
-      if (retryButton) {
-        retryButton.focus();
-      }
+      document.getElementById("errorImage").focus();
     }, 100);
   }
 }
+
 

@@ -49,7 +49,7 @@ button {
 }
 
 button:focus {
-  outline: 3px solid #aa6f00;
+  outline: 3px solid #f01313;
   outline-offset: 4px; /* Separación del borde */
 }
 
