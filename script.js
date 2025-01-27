@@ -6,26 +6,35 @@ const questions = [
   {
     question: "¿Cuál es la capital de Ecuador?",
     options: ["Quito", "Guayaquil", "Cuenca", "Loja"],
-    correct: 0
+    correct: 0,
+    hint: "Es una ciudad ubicada en la cordillera de los Andes y es la segunda capital más alta del mundo."
+
   },
   {
     question: "¿Cuántos continentes hay en el mundo?",
     options: ["5", "6", "7", "8"],
-    correct: 2
+    correct: 2,
+    hint: "América, Europa, Asia, África, Oceanía, Antártida y uno más..."
+
   },
   {
     question: "¿Cuál es el planeta más grande del sistema solar?",
     options: ["Marte", "Júpiter", "Saturno", "Neptuno"],
-    correct: 1
+    correct: 1,
+    hint: "Este planeta tiene la Gran Mancha Roja y es un gigante gaseoso."
+
   },
   {
     question: "¿Cuál es el océano más grande del mundo?",
     options: ["Atlántico", "Pacífico", "Índico", "Ártico"],
-    correct: 1
+    correct: 1,
+    hint: "Bordea las costas de América, Asia y Oceanía."
+
   }
 ];
 
 let currentQuestionIndex = 0;
+let hintsUsed = 0; // Contador para las pistas utilizadas
 
 // Función para iniciar el temporizador
 function startTimer() {
@@ -78,8 +87,39 @@ function loadQuestion() {
         )
         .join("")}
     </div>
+      <button id="helpButton" onclick="showHint()" tabindex="${8 + questionData.options.length}">
+      <span role="img" aria-label="Ayuda">❓</span> Necesito una pista
+    </button>
+    <p id="hint" class="hint-text" style="display: none;" tabindex="${9 + questionData.options.length}"></p>
+    <p id="feedback" tabindex="${10 + questionData.options.length}"></p>  
     <p id="feedback" tabindex="${8 + questions[currentQuestionIndex].options.length}"></p>
   `;
+
+    // Agregamos los event listeners para el teclado
+  document.querySelectorAll("#answers button").forEach(button => {
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        button.click();
+      }
+    });
+  });
+}
+
+// Función para mostrar la pista
+function showHint() {
+  const hintElement = document.getElementById("hint");
+  const questionData = questions[currentQuestionIndex];
+  
+  if (hintElement.style.display === "none") {
+    hintElement.textContent = questionData.hint;
+    hintElement.style.display = "block";
+    hintElement.focus(); // Enfocamos la pista para lectores de pantalla
+    hintsUsed++;
+  } else {
+    hintElement.style.display = "none";
+  }
+}
 
   document.querySelectorAll("#answers button").forEach(button => {
     button.addEventListener("keydown", (event) => {
@@ -124,6 +164,7 @@ function nextQuestion() {
   } else {
     document.getElementById("fondodelJuego").innerHTML = `
       <h1 tabindex="7">¡Juego completado!</h1>
+       <p tabindex="8">Usaste ${hintsUsed} pistas de ${questions.length} preguntas.</p>  
       <img src="imagenes/finalizado.png" alt="Juego completado" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="8">
       <button onclick="restartGame()" tabindex="9">Reiniciar</button>
     `;
@@ -219,6 +260,7 @@ function endGame() {
 function restartGame() {
   currentQuestionIndex = 0;
   timeLeft = 45;
+  hintsUsed = 0; // Reiniciamos el contador de pistas
   correctAnswers = 0;
   totalTimeTaken = 0;
   startTimer();
