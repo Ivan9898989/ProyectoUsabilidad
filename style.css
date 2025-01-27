@@ -122,3 +122,32 @@ img {
   border-radius: 10px;
 } 
 
+// Agregamos estilos CSS para el botón de ayuda y la pista
+const style = document.createElement('style');
+style.textContent = `
+  #helpButton {
+    background-color: #f0ad4e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #helpButton:hover {
+    background-color: #ec971f;
+  }
+
+  .hint-text {
+    background-color: #f8f9fa;
+    border-left: 4px solid #f0ad4e;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    color: #666;
+  }
+`;
+document.head.appendChild(style);
+
