@@ -120,9 +120,22 @@ img {
   margin: 0 auto;
   border: 2px solid #007bff;
   border-radius: 10px;
-} 
+}
 
-// Agregamos estilos CSS para el botón de ayuda y la pista
+#helpButton{
+  background-color: #C5C6C1;
+  color: black;
+
+}
+
+#botonReintentar{
+  background-color: #f28e15;
+  color: black;
+}
+ 
+ /*Agregamos estilos CSS para el botón de ayuda y la pista*/
+
+/* Agregamos estilos CSS para el botón de ayuda y la pista */
 const style = document.createElement('style');
 style.textContent = `
   #helpButton {
@@ -146,8 +159,11 @@ style.textContent = `
     padding: 10px;
     margin: 10px 0;
     border-radius: 4px;
-    color: #666;
+    color: #000000;
   }
 `;
+
+// Agregar los estilos al documento
 document.head.appendChild(style);
+
 
