@@ -64,7 +64,7 @@ const questionsModule2 = [
   {
     question: "¿Cuál de estos deportes se practica en el agua?",
     options: ["Judo", "Gimnasia", "Natación", "Ciclismo"],
-    correct: 1,
+    correct: 2,
     hint: "En este juego, la persona que cuenta debe encontrar a los demás que están ocultos."
   }
 ];
@@ -158,19 +158,40 @@ function startModule(moduleNumber) {
 function showCompletionScreen() {
   const endTime = new Date();
   const timeTaken = Math.floor((endTime - startTime) / 1000);
-  document.getElementById("fondodelJuego").style.display = "none";
+
+  console.log("Mostrando pantalla de finalización...");
+
+  // Muestra el fondo y la pantalla de finalización
+  document.getElementById("completionBackground").style.display = "block";
   document.getElementById("completionScreen").style.display = "block";
+
   document.getElementById("completedQuestions").textContent = currentQuestions.length;
   document.getElementById("correctAnswers").textContent = correctAnswersCount;
   document.getElementById("timeTaken").textContent = `${timeTaken}s`;
   document.getElementById("hintsUsed").textContent = hintsUsed;
 }
 
-function returnToMainModule() {
+
+/*function returnToMainModule() {
   document.getElementById("moduleScreen").style.display = "block";
   document.getElementById("fondodelJuego").style.display = "none";
   document.getElementById("completionScreen").style.display = "none";
+}*/
+
+function returnToMainModule() {
+  console.log("Regresando al módulo principal...");
+
+  // Ocultar la pantalla de finalización y la imagen de fondo
+  document.getElementById("completionScreen").style.display = "none";
+  document.getElementById("completionBackground").style.display = "none";
+
+  // Mostrar la pantalla de selección de módulos
+  document.getElementById("moduleScreen").style.display = "block";
+
+  // Ocultar también el contenedor de juego por si aún está visible
+  document.getElementById("fondodelJuego").style.display = "none";
 }
+
 
 function checkAnswer(index) {
   const gameContainer = document.getElementById("fondodelJuego");
@@ -200,11 +221,19 @@ function checkAnswer(index) {
 
 function nextQuestion() {
   currentQuestionIndex++;
-
+  console.log("Pasando a la siguiente pregunta. Índice actual:", currentQuestionIndex);
   if (currentQuestionIndex < currentQuestions.length) {
     loadQuestion();
+    
   } else {
+    console.log("Todas las preguntas han sido respondidas. Mostrando pantalla de finalización.");
     showCompletionScreen();
+    /*document.getElementById("fondodelJuego").innerHTML = `
+      <h1 tabindex="7">¡Juego completado!</h1>
+      <p tabindex="8">Usaste ${hintsUsed} pistas de ${currentQuestions.length} preguntas.</p>
+      <img src="imagenes/finalizado.png" alt="Juego completado" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="9">
+      <button onclick="restartGame()" tabindex="10">Reiniciar</button>
+    `;*/
   }
 }
 
@@ -233,13 +262,36 @@ function endGame() {
 }
 
 // Función para reiniciar el juego
-function restartGame() {
+/*function restartGame() {
   currentQuestionIndex = 0;
   timeLeft = 45;
   hintsUsed = 0; // Reiniciamos el contador de pistas
   startTimer();
   loadQuestion();
+}*/
+function restartGame() {
+  console.log("Reiniciando el juego...");
+
+  // Ocultar la pantalla de finalización y la imagen de fondo
+  document.getElementById("completionScreen").style.display = "none";
+  document.getElementById("completionBackground").style.display = "none";
+
+  // Reiniciar variables del juego
+  currentQuestionIndex = 0;
+  correctAnswersCount = 0;
+  hintsUsed = 0;
+  //startTime = new Date(); // Reiniciar el tiempo del juego
+
+  // Mostrar la pantalla del juego nuevamente
+  document.getElementById("fondodelJuego").style.display = "block";
+
+  timeLeft = 100;
+  startTimer();
+
+  // Cargar la primera pregunta nuevamente
+  loadQuestion();
 }
+
 
 // Llama al temporizador al cargar la página
 window.onload = function () {

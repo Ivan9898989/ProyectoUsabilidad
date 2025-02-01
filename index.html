@@ -33,17 +33,7 @@
       </div>
       <button id="infoButton" onclick="showInfo()" tabindex="10">Información del Juego</button>
     </div>
-    <div id="fondodelJuego" class="contenedordelJuego" tabindex="11" style="display: none;">
-      <div id="completionScreen" class="completion-screen" style="display: none;">
-        <h1 tabindex="11">¡Juego Completado!</h1>
-        <p tabindex="12">Preguntas completadas: <span id="completedQuestions"></span></p>
-        <p tabindex="13">Preguntas correctas: <span id="correctAnswers"></span></p>
-        <p tabindex="14">Tiempo tomado: <span id="timeTaken"></span></p>
-        <p tabindex="15">Pistas utilizadas: <span id="hintsUsed"></span></p>
-        <button onclick="restartGame()" tabindex="16">Reiniciar Preguntas</button>
-        <button onclick="returnToMainModule()" tabindex="17">Volver al Módulo Principal</button>
-      </div>
-    </div>
+    <div id="fondodelJuego" class="contenedordelJuego" tabindex="11" style="display: none;"></div>
     <div id="infoModal" class="modal" style="display: none;">
       <div class="modal-content">
         <!-- Añadimos tabindex y onkeypress a la "X" -->
@@ -52,7 +42,19 @@
         <p tabindex="14">Este es un juego de preguntas y respuestas diseñado para poner a prueba tus conocimientos. Selecciona un módulo y responde correctamente a las preguntas dentro del tiempo límite.</p>
       </div>
     </div>
-    
+    <!-- Imagen de fondo que cubre toda la pantalla -->
+    <div id="completionBackground" style="display: none;"></div>
+
+    <!-- Caja morada flotante con la información -->
+    <div id="completionScreen" class="completion-screen" style="display: none;">
+      <h1 tabindex="11">¡Juego Completado!</h1>
+      <p tabindex="12">Preguntas completadas: <span id="completedQuestions"></span></p>
+      <p tabindex="13">Preguntas correctas: <span id="correctAnswers"></span></p>
+      <p tabindex="14">Tiempo tomado: <span id="timeTaken"></span></p>
+      <p tabindex="15">Pistas utilizadas: <span id="hintsUsed"></span></p>
+      <button onclick="restartGame()" tabindex="16">Reiniciar Preguntas</button>
+      <button onclick="returnToMainModule()" tabindex="17">Volver al Módulo Principal</button>
+    </div> 
   </main>
   <script src="script.js"></script>
 </body>
