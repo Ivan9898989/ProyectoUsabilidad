@@ -11,11 +11,48 @@
     <img src="imagenes/logo_epn.png" alt="Logo Escuela Politécnica Nacional" id="logoEPN" tabindex="1">
     <h1 id="nombreEquipo" tabindex="2">Gamestron</h1>
     <h1 id="indicacion" tabindex="3">Haz click sobre la respuesta correcta</h1>
-    <div id="timer" tabindex="4">45s</div>
-    <img src="imagenes/tiempo.jpg" alt="Tiempo" id="logoEPN" tabindex="5">
+    <div id="timer" tabindex="4">100s</div>
+    <img src="imagenes/tiempo.jpg" alt="Reloj" id="logoEPN" tabindex="5" >
   </header>
   <main>
-    <div id="fondodelJuego" class="contenedordelJuego" tabindex="6"></div>
+    <div id="moduleScreen" class="module-screen">
+      <h1 tabindex="6">Selecciona un módulo</h1>
+      <div class="modules">
+        <div class="module-card" onclick="startModule(1)" tabindex="7">
+          <img src="imagenes/Modulo1.webp" alt="Módulo 1 Juegos Tradicionales del Ecuador">
+          <p>Juegos Tradicionales del Ecuador</p>
+        </div>
+        <div class="module-card" onclick="startModule(2)" tabindex="8">
+          <img src="imagenes/Modulo2.webp" alt="Módulo 2 Deportes">
+          <p>Deportes</p>
+        </div>
+        <div class="module-card" onclick="startModule(3)" tabindex="9">
+          <img src="imagenes/Modulo3.webp" alt="Módulo 3 - Gimnasia">
+          <p>Gimnasia</p>
+        </div>
+      </div>
+      <button id="infoButton" onclick="showInfo()" tabindex="10">Información del Juego</button>
+    </div>
+    <div id="fondodelJuego" class="contenedordelJuego" tabindex="11" style="display: none;">
+      <div id="completionScreen" class="completion-screen" style="display: none;">
+        <h1 tabindex="11">¡Juego Completado!</h1>
+        <p tabindex="12">Preguntas completadas: <span id="completedQuestions"></span></p>
+        <p tabindex="13">Preguntas correctas: <span id="correctAnswers"></span></p>
+        <p tabindex="14">Tiempo tomado: <span id="timeTaken"></span></p>
+        <p tabindex="15">Pistas utilizadas: <span id="hintsUsed"></span></p>
+        <button onclick="restartGame()" tabindex="16">Reiniciar Preguntas</button>
+        <button onclick="returnToMainModule()" tabindex="17">Volver al Módulo Principal</button>
+      </div>
+    </div>
+    <div id="infoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <!-- Añadimos tabindex y onkeypress a la "X" -->
+        <span class="close" onclick="hideInfo()" onkeypress="handleCloseKeyPress(event)" tabindex="12">&times;</span>
+        <h2 tabindex="13">Información del Juego</h2>
+        <p tabindex="14">Este es un juego de preguntas y respuestas diseñado para poner a prueba tus conocimientos. Selecciona un módulo y responde correctamente a las preguntas dentro del tiempo límite.</p>
+      </div>
+    </div>
+    
   </main>
   <script src="script.js"></script>
 </body>
