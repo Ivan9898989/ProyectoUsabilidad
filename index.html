@@ -18,7 +18,7 @@
     <div id="moduleScreen" class="module-screen">
       <h1 tabindex="6">Selecciona un módulo</h1>
       <div class="modules">
-        <div class="module-card" onclick="startModule(1)" tabindex="7">
+        <div class="module-card" onclick="startModule(1)" tabindex="7" onkeydown="handleModuleKeyPress(event, 1)">
           <img src="imagenes/Modulo1.webp" alt="Módulo 1 Juegos Tradicionales del Ecuador">
           <p>Juegos Tradicionales del Ecuador</p>
         </div>
@@ -34,6 +34,7 @@
       <button id="infoButton" onclick="showInfo()" tabindex="10">Información del Juego</button>
     </div>
     <div id="fondodelJuego" class="contenedordelJuego" tabindex="11" style="display: none;"></div>
+    
     <div id="infoModal" class="modal" style="display: none;">
       <div class="modal-content">
         <!-- Añadimos tabindex y onkeypress a la "X" -->

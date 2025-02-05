@@ -320,3 +320,9 @@ function handleCloseKeyPress(event) {
     hideInfo();
   }
 }
+
+function handleModuleKeyPress(event, moduleNumber) {
+  if (event.key === "Enter") {
+    startModule(moduleNumber);
+  }
+}

@@ -175,6 +175,13 @@ header {
   text-align: center;
   font-size: 20px;
   max-width: 500px;
+  margin: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Asegura que esté por encima del fondo */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
  }
 
 .completion-screen h1 {
