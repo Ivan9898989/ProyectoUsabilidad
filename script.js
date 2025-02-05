@@ -1,4 +1,4 @@
-let timeLeft = 100; // Tiempo en segundos
+let timeLeft = 46; 
 const timerElement = document.getElementById("timer");
 
 // Preguntas para cada módulo (5 preguntas por módulo)
@@ -107,28 +107,6 @@ let currentQuestions = [];
 let currentQuestionIndex = 0;
 let hintsUsed = 0; // Contador para las pistas utilizadas
 
-
-
-/*function startModule(moduleNumber) {
-  document.getElementById("moduleScreen").style.display = "none";
-  document.getElementById("fondodelJuego").style.display = "block";
-
-  switch (moduleNumber) {
-    case 1:
-      currentQuestions = questionsModule1;
-      break;
-    case 2:
-      currentQuestions = questionsModule2;
-      break;
-    case 3:
-      currentQuestions = questionsModule3;
-      break;
-  }
-
-  startTimer();
-  loadQuestion();
-}*/
-
 let startTime;
 let correctAnswersCount = 0;
 
@@ -151,7 +129,6 @@ function startModule(moduleNumber) {
       break;
   }
 
-  startTimer();
   loadQuestion();
 }
 
@@ -171,13 +148,6 @@ function showCompletionScreen() {
   document.getElementById("hintsUsed").textContent = hintsUsed;
 }
 
-
-/*function returnToMainModule() {
-  document.getElementById("moduleScreen").style.display = "block";
-  document.getElementById("fondodelJuego").style.display = "none";
-  document.getElementById("completionScreen").style.display = "none";
-}*/
-
 function returnToMainModule() {
   console.log("Regresando al módulo principal...");
 
@@ -192,14 +162,13 @@ function returnToMainModule() {
   document.getElementById("fondodelJuego").style.display = "none";
 }
 
-
 function checkAnswer(index) {
   const gameContainer = document.getElementById("fondodelJuego");
 
   if (index === currentQuestions[currentQuestionIndex].correct) {
     correctAnswersCount++;
     gameContainer.innerHTML = `
-      <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: 100%; height: auto; margin-top: 20px;" id="successImage" tabindex="7">
+      <img src="imagenes/exito.gif" alt="¡Respuesta correcta!" style="max-width: 120%; height: auto; margin-top: 60px;" id="successImage" tabindex="7">
       <button onclick="nextQuestion()" style="margin-top: 20px;" id="nextButton" tabindex="8">Siguiente</button>
     `;
 
@@ -209,8 +178,8 @@ function checkAnswer(index) {
 
   } else {
     gameContainer.innerHTML = `
-      <img src="imagenes/error.png" alt="Respuesta incorrecta" style="max-width: 400px; height: 400px; margin-top: 20px;" id="errorImage" tabindex="7">
-      <button id="botonReintentar" onclick="retryQuestion()" style="margin-top: 20px;" id="retryButton" tabindex="8">Intentar de nuevo</button>
+      <img src="imagenes/error.gif" alt="Respuesta incorrecta" style="max-width: 400px; height: 400px; margin-top: 20px;" id="errorImage" tabindex="7">
+      <button id="retryButton" onclick="retryQuestion()" style="margin-top: 20px;" tabindex="8">Intentar de nuevo</button>
     `;
 
     setTimeout(() => {
@@ -224,29 +193,21 @@ function nextQuestion() {
   console.log("Pasando a la siguiente pregunta. Índice actual:", currentQuestionIndex);
   if (currentQuestionIndex < currentQuestions.length) {
     loadQuestion();
-    
   } else {
     console.log("Todas las preguntas han sido respondidas. Mostrando pantalla de finalización.");
     showCompletionScreen();
-    /*document.getElementById("fondodelJuego").innerHTML = `
-      <h1 tabindex="7">¡Juego completado!</h1>
-      <p tabindex="8">Usaste ${hintsUsed} pistas de ${currentQuestions.length} preguntas.</p>
-      <img src="imagenes/finalizado.png" alt="Juego completado" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="9">
-      <button onclick="restartGame()" tabindex="10">Reiniciar</button>
-    `;*/
   }
 }
 
-// Resto del código (temporizador, carga de preguntas, etc.) se mantiene igual
-
 // Función para iniciar el temporizador
 function startTimer() {
-  const interval = setInterval(() => {
+  clearInterval(window.timerInterval); // Limpiar cualquier temporizador previo
+  window.timerInterval = setInterval(() => {
     if (timeLeft > 0) {
       timeLeft--;
       timerElement.textContent = `${timeLeft}s`;
     } else {
-      clearInterval(interval);
+      clearInterval(window.timerInterval);
       endGame(); // Finaliza el juego si se agota el tiempo
     }
   }, 1000);
@@ -257,18 +218,10 @@ function endGame() {
   const gameContainer = document.getElementById("fondodelJuego");
   gameContainer.innerHTML = `
     <h1 tabindex="7">Se agotó el tiempo. Intenta nuevamente.</h1>
-    <button onclick="restartGame()" tabindex="8">Reiniciar</button>
+    <button class="reiniciar" onclick="restartGame()" tabindex="8">Reiniciar</button>
   `;
 }
 
-// Función para reiniciar el juego
-/*function restartGame() {
-  currentQuestionIndex = 0;
-  timeLeft = 45;
-  hintsUsed = 0; // Reiniciamos el contador de pistas
-  startTimer();
-  loadQuestion();
-}*/
 function restartGame() {
   console.log("Reiniciando el juego...");
 
@@ -280,18 +233,16 @@ function restartGame() {
   currentQuestionIndex = 0;
   correctAnswersCount = 0;
   hintsUsed = 0;
-  //startTime = new Date(); // Reiniciar el tiempo del juego
 
   // Mostrar la pantalla del juego nuevamente
   document.getElementById("fondodelJuego").style.display = "block";
 
-  timeLeft = 100;
+  timeLeft = 45;
   startTimer();
 
   // Cargar la primera pregunta nuevamente
   loadQuestion();
 }
-
 
 // Llama al temporizador al cargar la página
 window.onload = function () {
@@ -301,6 +252,9 @@ window.onload = function () {
 
 // Función actualizada para cargar una pregunta con opción de ayuda
 function loadQuestion() {
+  timeLeft = 45; // Reiniciar el tiempo para cada pregunta
+  startTimer(); // Iniciar el temporizador para la nueva pregunta
+
   const gameContainer = document.getElementById("fondodelJuego");
   const questionData = currentQuestions[currentQuestionIndex];
 
@@ -310,7 +264,7 @@ function loadQuestion() {
       ${questionData.options
         .map(
           (option, index) =>
-            `<button onclick="checkAnswer(${index})" onkeypress="handleKeyPress(event, ${index})" tabindex="${8 + index}">${option}</button>`
+            `<button class="option-${index}" onclick="checkAnswer(${index})" onkeypress="handleKeyPress(event, ${index})" tabindex="${8 + index}">${option}</button>`
         )
         .join("")}
     </div>
@@ -346,55 +300,9 @@ function showHint() {
   }
 }
 
-function checkAnswer(index) {
-  const gameContainer = document.getElementById("fondodelJuego");
-
-  if (index === currentQuestions[currentQuestionIndex].correct) {
-    // Respuesta correcta
-    gameContainer.innerHTML = `
-      <img src="imagenes/exito.png" alt="¡Respuesta correcta!" style="max-width: auto; height: auto; margin-top: 10px;" id="successImage" tabindex="7">
-      <button onclick="nextQuestion()" style="margin-top: 20px;" id="nextButton" tabindex="8">Siguiente</button>
-    `;
-
-    // Focalizar primero la imagen y después el botón
-    setTimeout(() => {
-      document.getElementById("successImage").focus();
-    }, 100);
-
-  } else {
-    // Respuesta incorrecta
-    gameContainer.innerHTML = `
-      <img src="imagenes/error.png" alt="Respuesta incorrecta" style="max-width: 400px; height: 400px; margin-top: 20px;" id="errorImage" tabindex="7">
-      <button id="botonReintentar" onclick="retryQuestion()" style="margin-top: 20px;" id="retryButton" tabindex="8">Intentar de nuevo</button>
-    `;
-
-    // Focalizar primero la imagen y después el botón
-    setTimeout(() => {
-      document.getElementById("errorImage").focus();
-    }, 100);
-  }
-}
-
-// Función para cargar la misma pregunta nuevamente al fallar
 function retryQuestion() {
   loadQuestion();
 }
-
-// Función actualizada para cargar la siguiente pregunta y mostrar estadísticas de pistas
-/*function nextQuestion() {
-  currentQuestionIndex++;
-
-  if (currentQuestionIndex < currentQuestions.length) {
-    loadQuestion();
-  } else {
-    document.getElementById("fondodelJuego").innerHTML = `
-      <h1 tabindex="7">¡Juego completado!</h1>
-      <p tabindex="8">Usaste ${hintsUsed} pistas de ${currentQuestions.length} preguntas.</p>
-      <img src="imagenes/finalizado.png" alt="Juego completado" style="max-width: 100%; height: auto; margin-top: 20px;" tabindex="9">
-      <button onclick="restartGame()" tabindex="10">Reiniciar</button>
-    `;
-  }
-}*/
 
 function showInfo() {
   document.getElementById("infoModal").style.display = "block";
@@ -412,8 +320,3 @@ function handleCloseKeyPress(event) {
     hideInfo();
   }
 }
-
-
-
-
-
